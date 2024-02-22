@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 
 export const prisma = new PrismaClient();
-export interface MyContext {
+export interface Context {
     prisma?: typeof prisma;
     userInfo?: {
         userId: number; 

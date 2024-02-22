@@ -1,15 +1,12 @@
-import { MyContext } from "../prismaContext";
-import { userLoader } from "../loader/userLoader";
+import { Context } from "../../prismaContext";
+import { userLoader } from "../../loader/userLoader";
+import { PostParentType } from "../../types/post.type";
 
-interface PostParentType {
-    authorId: number;
-}
-
-export const Post = {
+export const userPostResolver = {
     // user: (
     //     parent: PostParentType, 
     //     __: any, 
-    //     {prisma}: MyContext) => {
+    //     {prisma}: Context) => {
     //         return prisma?.user.findUnique({
     //             where: {
     //                 id: parent.authorId
@@ -18,7 +15,7 @@ export const Post = {
     //     }
     user: (parent: PostParentType, 
             __: any, 
-            {prisma}: MyContext) => {
+            {prisma}: Context) => {
                return userLoader.load(parent.authorId)
             },
 

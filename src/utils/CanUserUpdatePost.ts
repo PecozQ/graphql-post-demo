@@ -1,10 +1,4 @@
-import { MyContext } from "../prismaContext"
-
-interface CanUserUpdatePostParams {
-    userId: number;
-    postId: number;
-    prisma: MyContext["prisma"];
-}
+import { CanUserUpdatePostParams } from "../types/post.type";
 
 export const canUserUpdatePost = async ({
     userId,

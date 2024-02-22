@@ -1,44 +1,28 @@
-import { MyContext } from "../../prismaContext";
+import { Context } from "../../prismaContext";
 import validator, { isDataURI } from 'validator';
 import bcrypt from "bcryptjs";
 import JWT from "jsonwebtoken";
+import { SignupArgs, UserPayload, SigninArgs } from "../../types/auth.type";
+import { InputError } from "../../utils/customError";
 
-interface SignupArgs {
-    credentials: {
-        email: string;
-        password: string;
-    }
-    name: string;
-    bio: string;
-}
-
-interface SigninArgs {
-    credentials: {
-        email: string;
-        password: string;
-    }
-}
-
-
-interface UserPayload {
-    userErrors: {
-        message: string
-    }[];
-    token: string | null;
-}
 export const authResolvers = {
     signup: async (_:any, 
         {credentials, name, bio}: SignupArgs,
-        {prisma}: MyContext): Promise<UserPayload> => {
+        {prisma}: Context): Promise<UserPayload> => {
             const {email, password} = credentials
             const isEmail = validator.isEmail(email)
             if (!isEmail) {
-                return {
-                    userErrors: [{
-                         message: "Invalid email"
-                    }],
-                    token : null
-                }
+                // return {
+                //     userErrors: [{
+                //          message: "Invalid email"
+                //     }],
+                //     token : null
+                // }
+                // throw new InputError( "Invalid email");
+                throw new InputError("Invalid email", "signup");
+
+                
+
             }
             const isValidPassword = validator.isLength(password, {
                 min: 5
@@ -93,7 +77,7 @@ export const authResolvers = {
     signin: async(
         _: any,
         {credentials}: SigninArgs,
-        {prisma}: MyContext
+        {prisma}: Context
     ): Promise<UserPayload> => {
         const {email, password} = credentials;
         

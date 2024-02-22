@@ -1,11 +1,8 @@
-import { MyContext } from "../prismaContext"
+import { Context } from "../../prismaContext"
+import { UserParentType } from "../../types/user.type";
 
-interface UserParentType {
-    id: number
-}
-
-export const User = {
-    posts: async(parent: UserParentType, __:any, {userInfo, prisma}: MyContext) => {
+export const userResolver = {
+    posts: async(parent: UserParentType, __:any, {userInfo, prisma}: Context) => {
         const isOwnProfile = parent.id === userInfo?.userId;
         console.log('The is own profile is given as:', isOwnProfile);
         if (isOwnProfile) {

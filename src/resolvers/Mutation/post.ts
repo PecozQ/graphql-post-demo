@@ -1,26 +1,13 @@
 import { Post, Prisma } from "@prisma/client";
-import { MyContext } from "../../prismaContext";
-import { canUserUpdatePost } from "../../utils/CanUserUpdatePost";
-
-interface PostArgs {
-    post : {
-     title?: string;
-     content?: string;
-    }
- }
- 
- interface PostPayloadType {
-     userErrors: {
-         message: string
-     }[];
-     post: Post | Prisma.Prisma__PostClient<Post> | null | undefined;
- }
+import { Context } from "../../prismaContext";
+import { canUserUpdatePost } from "../../utils/canUserUpdatePost";
+import { PostArgs, PostPayloadType } from "../../types/post.type";
 
 export const postResolvers = {
     postCreate: async (
         _:any, 
         { post }:PostArgs, 
-        {prisma, userInfo}: MyContext): Promise<PostPayloadType> => {
+        {prisma, userInfo}: Context): Promise<PostPayloadType> => {
             
             if (!userInfo) {
                 return {
@@ -55,7 +42,7 @@ export const postResolvers = {
     postUpdate: async (
         _: any, 
         { post, postId }: {postId: string, post: PostArgs["post"]}, 
-        {prisma, userInfo}: MyContext
+        {prisma, userInfo}: Context
         ): Promise<PostPayloadType> => {
 
            
@@ -125,7 +112,7 @@ export const postResolvers = {
     },
     postDelete: async (_:any, 
         {postId}: {postId: string},
-        {prisma, userInfo}: MyContext) => {
+        {prisma, userInfo}: Context) => {
         if (!userInfo) {
                 return {
                     userErrors: [{
@@ -173,7 +160,7 @@ export const postResolvers = {
         postPublish: async (
             _: any, 
             {postId}: {postId: string}, 
-            {prisma, userInfo}: MyContext): Promise<PostPayloadType> => {
+            {prisma, userInfo}: Context): Promise<PostPayloadType> => {
             if (!userInfo) {
                 return {
                     userErrors: [{
@@ -206,7 +193,7 @@ export const postResolvers = {
         postUnpublish: async (
             _: any, 
             {postId}: {postId: string}, 
-            {prisma, userInfo}: MyContext): Promise<PostPayloadType> => {
+            {prisma, userInfo}: Context): Promise<PostPayloadType> => {
             if (!userInfo) {
                 return {
                     userErrors: [{
