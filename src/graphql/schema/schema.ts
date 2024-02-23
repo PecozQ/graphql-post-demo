@@ -3,7 +3,6 @@ export const typeDefs = `#graphql
         posts: [Post!]!
         me: User
         profile(userId: ID!): Profile
-        getAssignedPrivatePost: [Post!]!
         getPublicPost: [Post!]!
         getPrivatePost: [Post!]!
         getAllPostForLoggedUser: [PostDetail!]!

@@ -48,7 +48,7 @@ export const  Query =  {
     },
     /**
      * 
-     * This function is used to get all the public post data
+     * This function is used to get all the public post
      * 
      */
     posts: async (_:any, __:any, { prisma }: IContext) => {
@@ -72,6 +72,7 @@ export const  Query =  {
     /**
      * 
      * This function is used to get all the public post of the logged in user
+     * @requires Bearer
      */
     getPublicPost: async (_:any, __:any, { prisma, userInfo }: IContext) => {
         if (!userInfo)  throw new BaseError("Missing Bearer Token", ErrorCodes.INVALID_REQUEST_BEARER_MISSING);
@@ -96,6 +97,8 @@ export const  Query =  {
     /**
      * 
      * This function is used to get all the private post of the logged in user
+     * 
+     * @requires Bearer
      */
     getPrivatePost: async (_:any, __:any, { prisma, userInfo }: IContext) => {
         if (!userInfo)  throw new BaseError("Missing Bearer Token", ErrorCodes.INVALID_REQUEST_BEARER_MISSING);
