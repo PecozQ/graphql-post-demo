@@ -142,21 +142,14 @@ export const  Query =  {
                             post: true
                         }
                     },
-                    posts:{
-                        where:{
-                            isPublic: true
-                        }
-                    }
+                    posts: true
                 }
             })
-            console.log("posts", posts)
-            console.log("posts", posts[0].assignedTo, posts[0].posts);
             mergedPosts = posts.flatMap((post: any) => {
                 const assignedTo = post.assignedTo.map((job: any) => job.post);
                 const publicPosts = post.posts;
                 return assignedTo.concat(publicPosts);
               });
-              console.log("123122", mergedPosts);
         } catch(error) {
              throw new BaseError("Failed to retrieve posts from DB", ErrorCodes.DB_ERROR);
         }
