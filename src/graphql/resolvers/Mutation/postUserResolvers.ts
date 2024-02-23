@@ -1,6 +1,6 @@
-import { IContext } from "../../prismaContext";
-import { userLoader } from "../../loader/userLoader";
-import { IPostParentType } from "../../types/post.type";
+import { IContext } from "../../../utils/database/prisma/prismaContext";
+import { userLoader } from "../../../loader/userLoader";
+import { IPostParentType } from "../../../types/post.type";
 
 export const postUserResolver = {
     // user: (

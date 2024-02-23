@@ -1,4 +1,4 @@
-import { IContext } from "../../prismaContext";
+import { IContext } from "../../../utils/database/prisma/prismaContext";
 
 export const  Query =  {
     me: (_: any, __: any, {userInfo, prisma}: IContext) => {
@@ -17,16 +17,22 @@ export const  Query =  {
         })
     },
     posts: async (_:any, __:any, { prisma }: IContext) => {
-       const posts = await prisma?.post.findMany({
-           where: {
-             published: true
-           },
-           orderBy: [
-            {
-                createdAt: "desc"
+       let posts;
+       try {
+        posts = await prisma?.post.findMany({
+            where: {
+              published: true
             },
-           ],
-       });
+            orderBy: [
+             {
+                 createdAt: "desc"
+             },
+            ],
+        });
+
+       } catch(error) {
+            throw new Error("Querying Post error from DB")
+       }
        return posts;
     }
 }

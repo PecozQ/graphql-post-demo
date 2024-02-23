@@ -42,7 +42,6 @@ export const typeDefs = `#graphql
      }
 
      type PostPayload {
-        userErrors: [UserError!]!
         post: Post
      }
 
@@ -52,7 +51,6 @@ export const typeDefs = `#graphql
      }
      
      type AuthPayload {
-        userErrors: [UserError!]!
         token: String
      }
 

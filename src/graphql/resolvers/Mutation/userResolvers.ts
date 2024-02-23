@@ -1,5 +1,5 @@
-import { IContext } from "../../prismaContext"
-import { IUserParentType } from "../../types/user.type";
+import { IContext } from "../../../utils/database/prisma/prismaContext"
+import { IUserParentType } from "../../../types/user.type";
 
 export const userResolver = {
     posts: async(parent: IUserParentType, __:any, {userInfo, prisma}: IContext) => {

@@ -1,13 +1,14 @@
 import { ApolloServer } from '@apollo/server';
-import { typeDefs  } from './schema';
-import { resolvers } from './resolvers/resolvers';
+import { typeDefs  } from './graphql/schema/schema';
+import { resolvers } from './graphql/resolvers/resolvers';
 import express, { json } from 'express';
 import cors from "cors";
 import { createServer } from 'http';
 import { expressMiddleware } from "@apollo/server/express4";
-import { IContext, prisma } from './prismaContext';
-import { getUserFromToken } from './utils/getUserFromToken';
+import { IContext, prisma } from './utils/database/prisma/prismaContext';
+import { getUserFromToken } from './utils/functions/getUserFromToken';
 import * as dotenv from 'dotenv';
+import { errorHandler } from './utils/error/errorHandler';
 
 dotenv.config();
 
@@ -18,7 +19,8 @@ async function main() {
 
    const server = new ApolloServer<IContext>({
     typeDefs,
-    resolvers
+    resolvers,
+    formatError: errorHandler
     });
 
     await server.start();

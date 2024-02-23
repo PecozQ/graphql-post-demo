@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import DataLoader from "dataloader";
-import { prisma } from "../prismaContext";
+import { prisma } from "../utils/database/prisma/prismaContext";
 
 type BatchUser = (ids: number[]) => Promise<User[]>
 

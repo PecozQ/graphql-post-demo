@@ -1,5 +1,5 @@
 import { Post, Prisma } from "@prisma/client";
-import { IContext } from "../prismaContext";
+import { IContext } from "../utils/database/prisma/prismaContext";
 
 export interface IPostArgs {
     post : {
@@ -9,9 +9,6 @@ export interface IPostArgs {
  }
  
 export interface IPostPayloadType {
-     userErrors?: {
-         message: string
-     }[];
      post?: Post | Prisma.Prisma__PostClient<Post> | null | undefined;
  }
 

@@ -1,5 +1,5 @@
-import { IContext } from "../../prismaContext";
-import { IProfileParentType } from "../../types/profile.type";
+import { IContext } from "../../../utils/database/prisma/prismaContext";
+import { IProfileParentType } from "../../../types/profile.type";
 
 export const profileResolver =  {
     user: (parent: IProfileParentType, __: any, {userInfo, prisma}: IContext) => {
