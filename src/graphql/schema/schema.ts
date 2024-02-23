@@ -3,6 +3,10 @@ export const typeDefs = `#graphql
         posts: [Post!]!
         me: User
         profile(userId: ID!): Profile
+        getAssignedPrivatePost: [Post!]!
+        getPublicPost: [Post!]!
+        getPrivatePost: [Post!]!
+        getAllPostForLoggedUser: [PostDetail!]!
      }
 
      type Mutation {
@@ -13,6 +17,8 @@ export const typeDefs = `#graphql
         postUnpublish(postId: ID!): PostPayload!
         signup(credentials: CredentialsInput, name: String!, bio: String!): AuthPayload!
         signin(credentials: CredentialsInput): AuthPayload!
+        updatePrivatePostAccess(post: PostUserInput!): PostUserPayload!
+        updateIsPublic(postId: ID!): PostPayload!
      }
 
      type Post {
@@ -20,7 +26,7 @@ export const typeDefs = `#graphql
         title: String!
         content: String!
         createdAt: String!
-        published: Boolean!
+        isPublic: Boolean!
         user: User!
      }
 
@@ -58,4 +64,21 @@ export const typeDefs = `#graphql
         email: String!
         password: String!
      }
+
+     input PostUserInput {
+      postId: ID!
+      userId: ID!
+     }
+     
+     type PostUserPayload {
+        message: String
+     }
+
+     type PostDetail {
+      id: ID!
+      title: String
+      content: String
+      isPublic: Boolean
+      authorId: ID!
+   }
 `

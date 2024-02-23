@@ -21,3 +21,19 @@ export interface ICanUserUpdatePostParams {
     postId: number;
     prisma: IContext["prisma"];
 }
+
+export interface IPostUserArgs {
+   post : {
+   postId: number,
+   userId: number
+   }
+ }
+
+ export interface IPostAccessUpdateArgs {
+    post: {
+        postId: number
+    }
+ }
+ export interface IPostMsgPayloadType {
+    message: string;
+ }

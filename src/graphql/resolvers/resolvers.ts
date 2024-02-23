@@ -11,5 +11,4 @@ export const resolvers = {
     Profile: profileResolver,
     Post: postUserResolver,
     User: userResolver
-
 }

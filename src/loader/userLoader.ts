@@ -14,9 +14,7 @@ const batchUsers: BatchUser = async (ids) => {
         }
     });
     // [1 , 3, 2]
-
     // and we get back in a jumbled format [{id:3}, {id:2}, {id:1}]
-
     // so we need it in the above array order
     const userMap: {[key:string]: User} = {};
 

@@ -8,7 +8,9 @@ import { expressMiddleware } from "@apollo/server/express4";
 import { IContext, prisma } from './utils/database/prisma/prismaContext';
 import { getUserFromToken } from './utils/functions/getUserFromToken';
 import * as dotenv from 'dotenv';
-import { errorHandler } from './utils/error/errorHandler';
+import { error } from 'console';
+import { GraphQLFormattedError } from 'graphql';
+import { BaseError } from './utils/error/base.error';
 
 dotenv.config();
 
@@ -20,7 +22,13 @@ async function main() {
    const server = new ApolloServer<IContext>({
     typeDefs,
     resolvers,
-    formatError: errorHandler
+    formatError: (error: any) => {
+        return {
+           message: error.extensions.message ? error.extensions.message : error.message,
+           code: error.extensions.code ?  error.extensions.code : "INTERNAL_SERVER_ERROR",
+           path: error.path
+        }
+    }
     });
 
     await server.start();
@@ -28,7 +36,7 @@ async function main() {
     app.use("/", cors<cors.CorsRequest>(), express.json(), expressMiddleware(server, {
         context: async ({req}: any): Promise<IContext> => {
             const userInfo =  await getUserFromToken(req.headers.bearer)
-            return {
+            return { 
                 prisma: prisma,
                 userInfo
             }
