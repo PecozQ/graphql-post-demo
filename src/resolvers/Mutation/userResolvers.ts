@@ -1,10 +1,9 @@
-import { Context } from "../../prismaContext"
-import { UserParentType } from "../../types/user.type";
+import { IContext } from "../../prismaContext"
+import { IUserParentType } from "../../types/user.type";
 
 export const userResolver = {
-    posts: async(parent: UserParentType, __:any, {userInfo, prisma}: Context) => {
+    posts: async(parent: IUserParentType, __:any, {userInfo, prisma}: IContext) => {
         const isOwnProfile = parent.id === userInfo?.userId;
-        console.log('The is own profile is given as:', isOwnProfile);
         if (isOwnProfile) {
             return prisma?.post.findMany({
                 where: {

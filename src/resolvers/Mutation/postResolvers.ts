@@ -1,20 +1,19 @@
 import { Post, Prisma } from "@prisma/client";
-import { Context } from "../../prismaContext";
+import { IContext } from "../../prismaContext";
 import { canUserUpdatePost } from "../../utils/canUserUpdatePost";
-import { PostArgs, PostPayloadType } from "../../types/post.type";
+import { IPostArgs, IPostPayloadType } from "../../types/post.type";
 
 export const postResolvers = {
     postCreate: async (
         _:any, 
-        { post }:PostArgs, 
-        {prisma, userInfo}: Context): Promise<PostPayloadType> => {
+        { post }:IPostArgs, 
+        {prisma, userInfo}: IContext): Promise<IPostPayloadType> => {
             
             if (!userInfo) {
                 return {
                     userErrors: [{
-                        message: "Forbidden access (unauthenticated)"
+                        message: "Invalid Bearer Token"
                     }],
-                    post: null
                 }
             }
 
@@ -41,9 +40,9 @@ export const postResolvers = {
     },
     postUpdate: async (
         _: any, 
-        { post, postId }: {postId: string, post: PostArgs["post"]}, 
-        {prisma, userInfo}: Context
-        ): Promise<PostPayloadType> => {
+        { post, postId }: {postId: string, post: IPostArgs["post"]}, 
+        {prisma, userInfo}: IContext
+        ): Promise<IPostPayloadType> => {
 
            
         if (!userInfo) {
@@ -112,7 +111,7 @@ export const postResolvers = {
     },
     postDelete: async (_:any, 
         {postId}: {postId: string},
-        {prisma, userInfo}: Context) => {
+        {prisma, userInfo}: IContext) => {
         if (!userInfo) {
                 return {
                     userErrors: [{
@@ -160,7 +159,7 @@ export const postResolvers = {
         postPublish: async (
             _: any, 
             {postId}: {postId: string}, 
-            {prisma, userInfo}: Context): Promise<PostPayloadType> => {
+            {prisma, userInfo}: IContext): Promise<IPostPayloadType> => {
             if (!userInfo) {
                 return {
                     userErrors: [{
@@ -193,7 +192,7 @@ export const postResolvers = {
         postUnpublish: async (
             _: any, 
             {postId}: {postId: string}, 
-            {prisma, userInfo}: Context): Promise<PostPayloadType> => {
+            {prisma, userInfo}: IContext): Promise<IPostPayloadType> => {
             if (!userInfo) {
                 return {
                     userErrors: [{

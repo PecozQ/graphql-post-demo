@@ -1,26 +1,26 @@
 import { Post, Prisma } from "@prisma/client";
-import { Context } from "../prismaContext";
+import { IContext } from "../prismaContext";
 
-export interface PostArgs {
+export interface IPostArgs {
     post : {
      title?: string;
      content?: string;
     }
  }
  
-export interface PostPayloadType {
-     userErrors: {
+export interface IPostPayloadType {
+     userErrors?: {
          message: string
      }[];
-     post: Post | Prisma.Prisma__PostClient<Post> | null | undefined;
+     post?: Post | Prisma.Prisma__PostClient<Post> | null | undefined;
  }
 
- export interface PostParentType {
+ export interface IPostParentType {
     authorId: number;
 }
 
-export interface CanUserUpdatePostParams {
+export interface ICanUserUpdatePostParams {
     userId: number;
     postId: number;
-    prisma: Context["prisma"];
+    prisma: IContext["prisma"];
 }

@@ -1,29 +1,25 @@
-import { Context } from "../../prismaContext";
+import { IContext } from "../../prismaContext";
 import validator, { isDataURI } from 'validator';
 import bcrypt from "bcryptjs";
 import JWT from "jsonwebtoken";
-import { SignupArgs, UserPayload, SigninArgs } from "../../types/auth.type";
+import { ISignupArgs, IUserPayload, ISigninArgs } from "../../types/auth.type";
 import { InputError } from "../../utils/customError";
 
 export const authResolvers = {
     signup: async (_:any, 
-        {credentials, name, bio}: SignupArgs,
-        {prisma}: Context): Promise<UserPayload> => {
-            const {email, password} = credentials
-            const isEmail = validator.isEmail(email)
+        {credentials, name, bio}: ISignupArgs,
+        {prisma}: IContext): Promise<IUserPayload> => {
+            const {email, password} = credentials;
+            const isEmail = validator.isEmail(email);
             if (!isEmail) {
-                // return {
-                //     userErrors: [{
-                //          message: "Invalid email"
-                //     }],
-                //     token : null
-                // }
-                // throw new InputError( "Invalid email");
-                throw new InputError("Invalid email", "signup");
-
-                
-
+                return {
+                    userErrors: [{
+                         message: "Invalid email"
+                    }],
+                    token: null
+                };
             }
+            console.log("this is exec")
             const isValidPassword = validator.isLength(password, {
                 min: 5
             });
@@ -31,17 +27,15 @@ export const authResolvers = {
                 return {
                     userErrors: [{
                          message: "Invalid password"
-                    }],
-                    token : null
-                }
+                    }]                
+                };
             }
 
             if (!name || !bio) {
                 return {
                     userErrors: [{
                          message: "Invalid name or bio "
-                    }],
-                    token : null
+                    }]                
                 }
             }
           
@@ -64,21 +58,20 @@ export const authResolvers = {
 
             const token = await JWT.sign({
                 userId: user?.id
-            }, "sdafskjasfkmbmjbsdhvjadvladjf",{
+            }, process.env.JWT_SECRET_KEY as JWT.Secret,{
                 expiresIn: 3600000 })
 
 
             return {
-                userErrors: [],
                 token
             }
            
     },
     signin: async(
         _: any,
-        {credentials}: SigninArgs,
-        {prisma}: Context
-    ): Promise<UserPayload> => {
+        {credentials}: ISigninArgs,
+        {prisma}: IContext
+    ): Promise<IUserPayload> => {
         const {email, password} = credentials;
         
         const user = await prisma?.user.findUnique({
@@ -108,7 +101,7 @@ export const authResolvers = {
 
         return {
              userErrors: [],
-             token: JWT.sign({userId: user.id}, "sdafskjasfkmbmjbsdhvjadvladjf", {
+             token: JWT.sign({userId: user.id}, process.env.JWT_SECRET_KEY as JWT.Secret, {
                 expiresIn: 3600000,
              })
         }

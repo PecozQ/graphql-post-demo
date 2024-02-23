@@ -1,8 +1,8 @@
-import { Context } from "../../prismaContext";
+import { IContext } from "../../prismaContext";
 import { userLoader } from "../../loader/userLoader";
-import { PostParentType } from "../../types/post.type";
+import { IPostParentType } from "../../types/post.type";
 
-export const userPostResolver = {
+export const postUserResolver = {
     // user: (
     //     parent: PostParentType, 
     //     __: any, 
@@ -13,9 +13,9 @@ export const userPostResolver = {
     //             }
     //         })
     //     }
-    user: (parent: PostParentType, 
+    user: (parent: IPostParentType, 
             __: any, 
-            {prisma}: Context) => {
+            {prisma}: IContext) => {
                return userLoader.load(parent.authorId)
             },
 

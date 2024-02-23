@@ -1,3 +1,3 @@
-export interface UserParentType {
+export interface IUserParentType {
     id: number
 }

@@ -1,10 +1,10 @@
-import { CanUserUpdatePostParams } from "../types/post.type";
+import { ICanUserUpdatePostParams } from "../types/post.type";
 
 export const canUserUpdatePost = async ({
     userId,
     postId,
     prisma
-}: CanUserUpdatePostParams) => {
+}: ICanUserUpdatePostParams) => {
    const user = await prisma?.user.findUnique({
     where: {
         id: userId

@@ -1,11 +1,11 @@
 import { ApolloServer } from '@apollo/server';
 import { typeDefs  } from './schema';
-import { Mutation, Query } from './resolvers';
+import { resolvers } from './resolvers/resolvers';
 import express, { json } from 'express';
 import cors from "cors";
 import { createServer } from 'http';
 import { expressMiddleware } from "@apollo/server/express4";
-import { Context, prisma } from './prismaContext';
+import { IContext, prisma } from './prismaContext';
 import { getUserFromToken } from './utils/getUserFromToken';
 import * as dotenv from 'dotenv';
 
@@ -16,18 +16,15 @@ async function main() {
    const app = express();
    const httpServer = createServer(app);
 
-   const server = new ApolloServer<Context>({
+   const server = new ApolloServer<IContext>({
     typeDefs,
-    resolvers: {
-        Query,
-        Mutation
-    }
+    resolvers
     });
 
     await server.start();
 
     app.use("/", cors<cors.CorsRequest>(), express.json(), expressMiddleware(server, {
-        context: async ({req}: any): Promise<Context> => {
+        context: async ({req}: any): Promise<IContext> => {
             const userInfo =  await getUserFromToken(req.headers.bearer)
             return {
                 prisma: prisma,

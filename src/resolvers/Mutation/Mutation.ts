@@ -1,16 +1,7 @@
-import { authResolvers } from "./auth";
-import { postResolvers } from "./post";
-import { profileResolver } from "./Profile";
-import { userResolver } from "./User";
-import { userPostResolver } from "./userPost";
-
-
-
+import { authResolvers } from "./authResolvers";
+import { postResolvers } from "./postResolvers";
 
 export const Mutation = {
   ...postResolvers,
-  ...authResolvers,  
-  // ...profileResolver,
-  // ...userResolver,
-  // ...userPostResolver
+  ...authResolvers
 }

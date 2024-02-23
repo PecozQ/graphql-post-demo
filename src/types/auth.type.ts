@@ -1,4 +1,4 @@
-export interface SignupArgs {
+export interface ISignupArgs {
     credentials: {
         email: string;
         password: string;
@@ -7,16 +7,16 @@ export interface SignupArgs {
     bio: string;
 }
 
-export interface SigninArgs {
+export interface ISigninArgs {
     credentials: {
         email: string;
         password: string;
     }
 }
 
-export interface UserPayload {
-    userErrors: {
+export interface IUserPayload {
+    userErrors?: {
         message: string
     }[];
-    token: string | null;
+    token?: string | null;
 }

@@ -1,7 +1,7 @@
-import { Context } from "../../prismaContext";
+import { IContext } from "../../prismaContext";
 
 export const  Query =  {
-    me: (_: any, __: any, {userInfo, prisma}: Context) => {
+    me: (_: any, __: any, {userInfo, prisma}: IContext) => {
     if (!userInfo) return null;
     return prisma?.user.findUnique({
         where: {
@@ -9,14 +9,14 @@ export const  Query =  {
         }
     });
     },
-    profile: async (_:any, {userId}: {userId: string}, {prisma}: Context ) => {
+    profile: async (_:any, {userId}: {userId: string}, {prisma}: IContext ) => {
         return prisma?.profile.findUnique({
             where: {
                 userId: Number(userId)
             }
         })
     },
-    posts: async (_:any, __:any, { prisma }: Context) => {
+    posts: async (_:any, __:any, { prisma }: IContext) => {
        const posts = await prisma?.post.findMany({
            where: {
              published: true
